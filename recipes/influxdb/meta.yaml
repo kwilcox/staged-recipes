@@ -1,0 +1,49 @@
+{% set name = "influxdb" %}
+{% set version = "4.0.0" %}
+{% set build = 0 %}
+{% set hash = "407dfa799666a78ed3b61b8a5bca43b9a891a139c4d6d96218613b837c16de61" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  fn: {{ name }}-{{ version}}.tar.gz
+  url: https://github.com/influxdata/influxdb-python/archive/v{{ version }}.tar.gz
+  sha256: {{ hash }}
+
+build:
+  number: {{ build }}
+  script: python setup.py install --single-version-externally-managed --record record.txt
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - python-dateutil >=2.0.0
+    - pytz
+    - requests >=1.0.3
+    - six >=1.9.0
+
+  run:
+    - python
+    - python-dateutil >=2.0.0
+    - pytz
+    - requests >=1.0.3
+    - six >=1.9.0
+    - pandas
+
+test:
+  imports:
+    - influxdb
+    - influxdb.influxdb08
+
+about:
+  home: https://github.com/influxdb/influxdb-python
+  license: MIT
+  summary: 'InfluxDB client'
+  license_family: MIT
+
+extra:
+  recipe-maintainers:
+    - kwilcox
